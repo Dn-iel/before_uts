@@ -33,7 +33,7 @@ def main():
   user_input = [gender, age, height, weight, family_history_with_overweight, 
                 FAVC, FCVC, NCP, CAEC, SMOKE, CH2O, SCC, FAF, TUE, CALC, MTRANS]
 
-Memuat model
+# Memuat model
   model_filename = 'before_UTS.pkl'
 
   model = load_model(model_filename)
