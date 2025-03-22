@@ -37,5 +37,6 @@ def main():
   model_filename = 'before_UTS.pkl'
 
   model = load_model(model_filename)
-if name == "main":
-  main()
+if __name__ == '__main__':
+    main()
+
