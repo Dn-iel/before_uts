@@ -44,6 +44,7 @@ def main():
   prediction = predict_with_model(model, user_input)
   st.write("Model Prediction is : ", prediction)
 
+
 if __name__ == '__main__':
     main()
 
