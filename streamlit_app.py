@@ -7,6 +7,10 @@ def load_model(filename):
   model = joblib.load(filename)
   return model
 
+def predict_with_model(model, user_input):
+  prediction = model.predict([user_input])
+  return prediction[0]
+
 def main():
   st.title('Machine Learning App')
   st.info('This app will predict your obesity level!')
@@ -35,8 +39,10 @@ def main():
 
 # Memuat model
   model_filename = 'before_UTS.pkl'
-
   model = load_model(model_filename)
+
+prediction = predict_with_model(model, user_input)
+st.write("Model Prediction is : ", prediction)
 if __name__ == '__main__':
     main()
 
