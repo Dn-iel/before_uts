@@ -12,20 +12,25 @@ def load_encoder(filename):
 
 # Function to Encode User Input
 def encode_input(user_input, label_encoders, onehot_encoder):
-    # Label Encoding for Binary Categorical Features
+    encoded_input = user_input.copy()
+    
+    # Label Encoding untuk fitur kategori biner
     categorical_features = ["Gender", "family_history_with_overweight", "FAVC", "SMOKE", "SCC"]
     for feature in categorical_features:
-        user_input[feature] = label_encoders[feature].transform([user_input[feature]])[0]
-    
-    # One-Hot Encoding for Multi-Class Categorical Features
+        if feature in label_encoders:
+            if user_input[feature] in label_encoders[feature].classes_:
+                encoded_input[feature] = label_encoders[feature].transform([user_input[feature]])[0]
+            else:
+                encoded_input[feature] = -1  # Default jika nilai tidak dikenal
+
+    # One-Hot Encoding untuk fitur multi-kategori
     onehot_features = ["CAEC", "CALC", "MTRANS"]
-    onehot_values = onehot_encoder.transform([[user_input[f] for f in onehot_features]]).toarray()
-    
-    # Convert dictionary to list
-    encoded_data = list(user_input.values())  # Convert encoded categorical to list
-    encoded_data = encoded_data[:-3]  # Remove the original one-hot features
-    encoded_data.extend(onehot_values[0])  # Append one-hot encoded values
-    
+    onehot_values = onehot_encoder.transform(pd.DataFrame([user_input], columns=onehot_features)).toarray()
+
+    # Konversi dictionary ke list
+    encoded_data = list(encoded_input.values())[:-3]  # Hapus fitur yang akan di-One-Hot Encode
+    encoded_data.extend(onehot_values[0])  # Tambahkan hasil encoding
+
     return np.array(encoded_data).reshape(1, -1)
 
 # Main Streamlit App
